@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+using CIS106ExceptionHandling.exceptions;
 using CIS106ExceptionHandling.models;
 using CIS106ExceptionHandling.services;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +36,34 @@ namespace CIS106ExceptionHandling.controllers {
         [HttpGet("products", Name = "GetProducts")]
         public List<Product> GetProducts([FromQuery] string? criteria) {
             return this._productService.GetProducts(criteria);
+        }
+
+        [HttpGet("products/{productId}", Name = "GetProductById")]
+        public Product? GetProductById(
+            [Required] 
+            [Range(1, int.MaxValue)] 
+            int productId
+        ) {
+            return this._productService.GetProductById(productId);
+        }
+
+        [HttpPost("products", Name = "CreateProduct")]
+        public Product CreateProduct([FromBody] ProductCreateRequest request) {
+            if (!ModelState.IsValid) {
+                throw new InvalidInputException("Product Create Request is invalid. ", ModelState);
+            } else {
+                return this._productService.CreateProduct(request);
+            }
+            
+        }
+
+        [HttpDelete("products/{productId}", Name = "DeleteProductById")]
+        public void DeleteProductById(
+            [Required] 
+            [Range(1, int.MaxValue)] 
+            int productId
+            ) {
+                this._productService.DeleteProductById(productId);
         }
 
     }
