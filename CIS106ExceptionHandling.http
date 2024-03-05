@@ -1,0 +1,6 @@
+@CIS106ExceptionHandling_HostAddress = http://localhost:5000
+
+GET {{CIS106ExceptionHandling_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
