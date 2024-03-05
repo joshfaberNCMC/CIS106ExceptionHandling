@@ -1,6 +1,7 @@
 using CIS106ExceptionHandling.exceptions;
 using CIS106ExceptionHandling.models;
 using CIS106ExceptionHandling.repositories;
+using Microsoft.Data.SqlClient;
 
 namespace CIS106ExceptionHandling.services {
 
@@ -28,7 +29,7 @@ namespace CIS106ExceptionHandling.services {
         /// <returns>The list of products to return.</returns>
         public List<Product> GetProducts(string? criteria) {
             // We first check if criteria is provided (not null).
-            if (criteria != null) {
+            if (!string.IsNullOrEmpty(criteria)) {
 
                 // If criteria was provided, let's put it into upper case here 
                 // so we don't have to put it to upper case in every check.
@@ -56,18 +57,56 @@ namespace CIS106ExceptionHandling.services {
             return this._context.Products.Find(productId);
         }
 
-        public Product CreateProduct(ProductCreateRequest request)
+        /// <summary>
+        /// Saves a new product.
+        /// </summary>
+        /// <param name="request">The ProductCreateRequest to create the product from.</param>
+        /// <returns>The created product (with its generated ID).</returns>
+        public Product CreateProduct(ProductSaveRequest request)
         {
+            // Instantiate a new Product based on the request.
             Product productToCreate = new Product{
                 Name = request.Name,
                 Description = request.Description,
                 Price = request.Price
             };
 
+            // Add our new product to our DbSet of products.
             this._context.Products.Add(productToCreate);
+
+            // Tells Entity Framework to process the add (also sets the Id field of the productToCreate).
             this._context.SaveChanges();
 
+            // Return the created product.
             return productToCreate;
+        }
+
+        /// <summary>
+        /// Updates an existing product.
+        /// </summary>
+        /// <param name="request">The ProductSaveRequest to use.</param>
+        /// <param name="productId">The ID of the product to update.</param>
+        /// <exception cref="EntityNotFoundException">Thrown if the product to update is not found.</exception>
+
+        public void UpdateProduct(ProductSaveRequest request, int productId)
+        {
+            // To update an entity in Entity Framework, we first need to retrieve said product.
+            Product? productToUpdate = this.GetProductById(productId);
+
+            // If the product is found, we will update it and call SaveChanges on our DbContext.
+            if (productToUpdate != null) {
+                
+                // Update the values of our product to update.
+                productToUpdate.Name = request.Name;
+                productToUpdate.Description = request.Description;
+                productToUpdate.Price = request.Price;
+
+                // Save the updated product.
+                this._context.SaveChanges();
+            } else {
+                // Otherwise, if the product is null, we're going to throw our custom EntityNotFoundException with a useful message.
+                throw new EntityNotFoundException($"Product with ID {productId} could not be found. Unable to update product.");
+            }
         }
 
 

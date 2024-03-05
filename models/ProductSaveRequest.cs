@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CIS106ExceptionHandling.models {
 
-    public class ProductCreateRequest {
+    public class ProductSaveRequest {
 
         [Required]
         [MinLength(2)]
