@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CIS106ExceptionHandling.controllers {
 
-    /* This class is our Product Controller, which will contain endpoints that 
-    * can be called by other applications. The only responsibility of this class
-    * should be to validate and route the requests to the service layer.
-    */
+    /// <summary>
+    /// This class is our Product Controller, which will contain endpoints that can be called by other applications. 
+    /// The only responsibility of this class should be to validate and route the requests to the service layer.
+    /// </summary>
     [ApiController]
     public class ProductController: ControllerBase {
 
@@ -19,10 +19,11 @@ namespace CIS106ExceptionHandling.controllers {
         */
         private readonly ProductService _productService;
 
-        /* This constructor allows our ProductService to be injected into it by the .NET framework.
-        * We don't have to worry about how it gets into our class, .NET takes care of that for us
-        * with its dependency injection container.
-        */
+        /// <summary>
+        /// Constructor for dependency injection. This constructor allows our ProductService to be injected into it by the .NET framework. 
+        /// We don't have to worry about how it gets into our class, .NET takes care of that for us with its dependency injection container.
+        /// </summary>
+        /// <param name="productService">The ProductService to use.</param>
         public ProductController(ProductService productService) {
             this._productService = productService;
         }
@@ -38,6 +39,11 @@ namespace CIS106ExceptionHandling.controllers {
             return this._productService.GetProducts(criteria);
         }
 
+        /// <summary>
+        /// Retrieves a single product by its ID, or null if not found.
+        /// </summary>
+        /// <param name="productId">The ID of the product to retrieve.</param>
+        /// <returns>The product to return, or null if not found.</returns>
         [HttpGet("products/{productId}", Name = "GetProductById")]
         public Product? GetProductById([Required] [Range(1, int.MaxValue)] int productId) {
             return this._productService.GetProductById(productId);
@@ -57,6 +63,11 @@ namespace CIS106ExceptionHandling.controllers {
             }
         }
 
+        /// <summary>
+        /// Updates an existing product based on the given request.
+        /// </summary>
+        /// <param name="request">The ProductSaveRequest to use.</param>
+        /// <param name="productId">The ID of the product to update.</param>
         [HttpPut("products/{productId}", Name = "UpdateProduct")]
         public void UpdateProduct(
             [FromBody] ProductSaveRequest request, [Required] [Range(1, int.MaxValue)] int productId) {
@@ -67,6 +78,10 @@ namespace CIS106ExceptionHandling.controllers {
             }
         }
 
+        /// <summary>
+        /// Deletes a product with the given product ID.
+        /// </summary>
+        /// <param name="productId">The ID of the product to delete.</param>
         [HttpDelete("products/{productId}", Name = "DeleteProductById")]
         public void DeleteProductById([Required] [Range(1, int.MaxValue)] int productId) {
                 this._productService.DeleteProductById(productId);

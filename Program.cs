@@ -21,6 +21,7 @@ builder.Services.AddSwaggerGen();
 // Allowing it to provide your other classes with these classes when injected into the Constructor for those classes.
 builder.Services.AddScoped<EhDbContext>();
 builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<ReportService>();
 
 // Exception Handler
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
