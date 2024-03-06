@@ -1,3 +1,4 @@
+using CIS106ExceptionHandling.exceptions;
 using CIS106ExceptionHandling.models;
 
 namespace CIS106ExceptionHandling.services {
@@ -6,6 +7,9 @@ namespace CIS106ExceptionHandling.services {
     /// Generates Reports.
     /// </summary>
     public class ReportService {
+
+        // Only secret agents may view this product. They know the secret path to view it. Anyone calling for this is unauthorized.
+        private static readonly int SUPER_SECRET_PRODUCT_ID = 999;
 
         // This hardcoded dictionary holds a map of product ID's to sales made in the last 30 days.
         // For example, the product with ID 1 has sold 0 units in the last 30 days.
@@ -37,20 +41,16 @@ namespace CIS106ExceptionHandling.services {
         /// <param name="productId">The ID of the product to generate the report for.</param>
         /// <returns>The report to return.</returns>
         public Report GenerateReport(int productId) {
-            /* TODO: Handle any exceptions that may occur.
-            * 1. DivideByZeroException should be handled by setting the result to 0 and moving forward.
-            * 2. If a product is not found, use exceptions to return a 404 NOT FOUND to the requester with a helpful message.
-            * 3. Product 999 is a special product that only secret agents can view. If the product ID is 999, you must return to the requester
-            * - a 401 UNAUTHORIZED HTTP Code Response with a message saying they are not authorized to view this product. This will require a new
-            * - exception being created. */
+            // TODO: Handle the exceptions presented in the assignment.
             Report report = new Report();
 
             Product? productForReport = this._productService.GetProductById(productId);
 
             report.Product = productForReport;
-
             report.TotalSalesPastThirtyDays = PRODUCT_SALES_LAST_30_DAYS[productForReport.Id];
+
             report.DailySalesPastThirtyDays = 30m / report.TotalSalesPastThirtyDays;
+            report.DailySalesPastThirtyDays = 0;
 
             report.GrossIncome = report.DailySalesPastThirtyDays * productForReport.Price;
 
