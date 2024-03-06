@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CIS106ExceptionHandling.models {
 
+    /// <summary>
+    /// Class representing the input required to create or update a Product.
+    /// </summary>
     public class ProductSaveRequest {
 
         [Required]

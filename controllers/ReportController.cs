@@ -10,16 +10,17 @@ namespace CIS106ExceptionHandling.controllers {
     [ApiController]
     public class ReportController: ControllerBase {
 
-        /* This is the ProductControllers's own reference to the ReportService.
+        /* This is the ReportControllers's own reference to the ReportService.
         * We don't initiliaze it here as we will let .NET provide us with a complete
         * ReportService via Constructor dependency injection below.
         */
         private readonly ReportService _reportService;
 
-        /* This constructor allows our ReportService to be injected into it by the .NET framework.
-        * We don't have to worry about how it gets into our class, .NET takes care of that for us
-        * with its dependency injection container.
-        */
+        /// <summary>
+        /// Constructor for dependency injection. This constructor allows our ReportService to be injected into it by the .NET framework. 
+        /// We don't have to worry about how it gets into our class, .NET takes care of that for us with its dependency injection container.
+        /// </summary>
+        /// <param name="reportService">The ReportService to use.</param>
         public ReportController(ReportService reportService) {
             this._reportService = reportService;
         }

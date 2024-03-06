@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 namespace CIS106ExceptionHandling.exceptions {
 
     /// <summary>
-    /// This exception is thrown when the requester provides invalid input,
-    /// whether for a request body or endpoint parameter.
+    /// This exception is thrown when the requester provides invalid input in a request body.
     /// </summary>
     public class InvalidInputException : Exception
     {
+        // This is the ModelState of our request body, which contains the validation errors that have occured.
         public ModelStateDictionary ModelState {get; set;}
 
         /// <summary>

@@ -2,6 +2,9 @@ using CIS106ExceptionHandling.models;
 
 namespace CIS106ExceptionHandling.services {
 
+    /// <summary>
+    /// Generates Reports.
+    /// </summary>
     public class ReportService {
 
         // This hardcoded dictionary holds a map of product ID's to sales made in the last 30 days.
@@ -12,8 +15,18 @@ namespace CIS106ExceptionHandling.services {
             {14, 0}, {15, 41}, {16, 14}, {17, 52}, {18, 33}, {19, 78}, {20, 0}, {21, 22}, {22, 11}, {23, 1}, {24, 1}, {25, 0}, {26, 0},
         };
 
+        /* This is the ReportService's own reference to the ProductService.
+        * We don't initiliaze it here as we will let .NET provide us with a complete
+        * ProductService via Constructor dependency injection below.
+        */
         private readonly ProductService _productService;
 
+
+        /// <summary>
+        /// Constructor for dependency injection. This constructor allows our ProductService to be injected into it by the .NET framework. 
+        /// We don't have to worry about how it gets into our class, .NET takes care of that for us with its dependency injection container.
+        /// </summary>
+        /// <param name="productService">The ProductService to use.</param>
         public ReportService(ProductService productService) {
             this._productService = productService;
         }

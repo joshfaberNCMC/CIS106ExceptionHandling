@@ -1,5 +1,8 @@
 namespace CIS106ExceptionHandling.models {
 
+    /// <summary>
+    /// A class representing a product.
+    /// </summary>
     public class Product {
 
         public int Id {get; set;}
