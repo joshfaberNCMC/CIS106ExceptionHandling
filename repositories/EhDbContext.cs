@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CIS106ExceptionHandling.repositories {
 
+    /// <summary>
+    /// This acts as our liason between our application and our database. This can be thought of as our entire data layer.
+    /// </summary>
     public class EhDbContext: DbContext {
 
         // This holds our configurations for our application, defined mostly in out appsettings.json files.
@@ -19,11 +22,13 @@ namespace CIS106ExceptionHandling.repositories {
             this._configuration = configuration;
         }
 
-        /* Overriding this method allows us to setup the database connection strings
-        * as well as tell Entity Framework what database type to use (sqlite)
-        * on top of some other configurations, like telling it to log our SQL and such to the console
-        * and provide detailed error messages rather than shorter ones.
-        */
+        /// <summary>
+        /// Overriding this method allows us to setup the database connection strings 
+        /// as well as tell Entity Framework what database type to use (sqlite) 
+        /// on top of some other configurations, like telling it to log our SQL and such to the console
+        /// and provide detailed error messages rather than shorter ones.
+        /// </summary>
+        /// <param name="optionsBuilder">The DbContextOptionsBuilder to use.</param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Tells EF Core to use our database connection string from our appsettings.json
@@ -36,11 +41,13 @@ namespace CIS106ExceptionHandling.repositories {
             optionsBuilder.EnableDetailedErrors();
         }
 
-        /*  method provided by Entity Framework Core that allows you to configure the model for your DbContext.
-        * It is called when the DbContext is being initialized, typically during application startup. 
-        * Inside this method, you can use the ModelBuilder instance to configure various aspects of your entity types,
-        * such as defining primary keys, specifying relationships between entities, configuring property mappings, setting up data seeding, and more. 
-        */
+        /// <summary>
+        /// This method provided by Entity Framework Core that allows you to configure the model for your DbContext. 
+        /// It is called when the DbContext is being initialized, typically during application startup. 
+        /// Inside this method, you can use the ModelBuilder instance to configure various aspects of your entity types,
+        /// such as defining primary keys, specifying relationships between entities, configuring property mappings, setting up data seeding, and more. 
+        /// </summary>
+        /// <param name="modelBuilder">The ModelBuilder to use.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
