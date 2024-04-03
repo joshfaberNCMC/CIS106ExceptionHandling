@@ -5,7 +5,7 @@ namespace CIS106ExceptionHandling.models {
     /// </summary>
     public class Report {
 
-        public Product Product {get; set;}
+        public Product Product {get; set;} = null!;
         public int TotalSalesPastThirtyDays {get; set;}
         public decimal DailySalesPastThirtyDays {get; set;}
         public decimal GrossIncome {get; set;}

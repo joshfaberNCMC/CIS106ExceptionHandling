@@ -14,7 +14,7 @@ namespace CIS106ExceptionHandling.controllers {
     public class ProductController: ControllerBase {
 
         /* This is the ProductControllers's own reference to the ProductService.
-        * We don't initiliaze it here as we will let .NET provide us with a complete
+        * We don't initialize it here as we will let .NET provide us with a complete
         * ProductService via Constructor dependency injection below.
         */
         private readonly ProductService _productService;
@@ -55,10 +55,14 @@ namespace CIS106ExceptionHandling.controllers {
         /// <param name="request">The ProductSaveRequest to create a product from.</param>
         /// <returns>The created Product to return.</returns>
         [HttpPost("products", Name = "CreateProduct")]
-        public Product CreateProduct([FromBody] ProductSaveRequest request) {
-            if (!ModelState.IsValid) {
-                throw new InvalidInputException("Product Create Request is invalid. ", ModelState);
-            } else {
+        public Product CreateProduct([FromBody] ProductSaveRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new InvalidInputException("Product Create Request is invalid.", ModelState);
+            }
+            else
+            {
                 return this._productService.CreateProduct(request);
             }
         }

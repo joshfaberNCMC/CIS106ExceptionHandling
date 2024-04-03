@@ -1,3 +1,4 @@
+using CIS106ExceptionHandling.exceptions;
 using CIS106ExceptionHandling.models;
 using CIS106ExceptionHandling.services;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +12,7 @@ namespace CIS106ExceptionHandling.controllers {
     public class ReportController: ControllerBase {
 
         /* This is the ReportControllers's own reference to the ReportService.
-        * We don't initiliaze it here as we will let .NET provide us with a complete
+        * We don't initialize it here as we will let .NET provide us with a complete
         * ReportService via Constructor dependency injection below.
         */
         private readonly ReportService _reportService;
@@ -28,11 +29,12 @@ namespace CIS106ExceptionHandling.controllers {
         /// <summary>
         /// Generates the report for a given product
         /// </summary>
-        /// <param name="productId"></param>
-        /// <returns></returns>
+        /// <param name="productId">The ID of the product</param>
+        /// <returns>A generated report for the given product ID</returns>
         [HttpGet("products/{productId}/reports", Name = "GenerateProductReport")]
-        public Report GenerateReportFromProductId(int productId) {
-            return this._reportService.GenerateReport(productId);
+        public Report GenerateReportFromProductId(int productId) 
+        {
+            return this._reportService.GenerateReport(productId);          
         }
 
     }

@@ -1,24 +1,24 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace CIS106ExceptionHandling.exceptions {
-
+namespace CIS106ExceptionHandling.exceptions
+{
     /// <summary>
-    /// This exception is thrown when the requester provides invalid input in a request body.
+    /// This exception is thrown when the requester provides invalid input
+    /// whether for a request body or endpoint parameter
     /// </summary>
     public class InvalidInputException : Exception
     {
-        // This is the ModelState of our request body, which contains the validation errors that have occured.
-        public ModelStateDictionary ModelState {get; set;}
+        public ModelStateDictionary ModelState {get;set;} = null!;
 
         /// <summary>
-        /// Constructor account for a custom message as well as the ModelStateDictionary containing the validation errors.
+        /// Constructor account for a custom message as well as the ModelStateDictionary containing the validation errors
         /// </summary>
-        /// <param name="message">The custom exception message.</param>
-        /// <param name="modelState">The ModelStateDictionary containing the validation errors.</param>
-        /// <returns>The InvalidInputException to return.</returns>
-        public InvalidInputException(string message, ModelStateDictionary modelState): base(message) {
+        /// <param name="message">The custom exception message</param>
+        /// <param name="modelState">The ModelStateDictionary containing the validation errors</param>
+        /// <returns>The InvalidInputException to return</returns>
+        public InvalidInputException(string message, ModelStateDictionary modelState) : base(message)
+        {
             this.ModelState = modelState;
         }
     }
-
 }

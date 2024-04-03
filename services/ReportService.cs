@@ -1,5 +1,6 @@
 using CIS106ExceptionHandling.exceptions;
 using CIS106ExceptionHandling.models;
+using CIS106ExceptionHandling.services;
 
 namespace CIS106ExceptionHandling.services {
 
@@ -20,7 +21,7 @@ namespace CIS106ExceptionHandling.services {
         };
 
         /* This is the ReportService's own reference to the ProductService.
-        * We don't initiliaze it here as we will let .NET provide us with a complete
+        * We don't initialize it here as we will let .NET provide us with a complete
         * ProductService via Constructor dependency injection below.
         */
         private readonly ProductService _productService;
@@ -44,15 +45,30 @@ namespace CIS106ExceptionHandling.services {
             // TODO: Handle the exceptions presented in the assignment.
             Report report = new Report();
 
-            Product? productForReport = this._productService.GetProductById(productId);
+            try
+            {
+                Product? productForReport = this._productService.GetProductById(productId);
 
-            report.Product = productForReport;
-            report.TotalSalesPastThirtyDays = PRODUCT_SALES_LAST_30_DAYS[productForReport.Id];
+                if (productId == SUPER_SECRET_PRODUCT_ID)
+                {
+                    throw new UnauthorizedException("User is unauthorized for this resource.");
+                }
 
-            report.DailySalesPastThirtyDays = 30m / report.TotalSalesPastThirtyDays;
-            report.DailySalesPastThirtyDays = 0;
+                report.Product = productForReport;
+                report.TotalSalesPastThirtyDays = PRODUCT_SALES_LAST_30_DAYS[productForReport.Id];
 
-            report.GrossIncome = report.DailySalesPastThirtyDays * productForReport.Price;
+                report.DailySalesPastThirtyDays = 30m / report.TotalSalesPastThirtyDays;
+
+                report.GrossIncome = report.DailySalesPastThirtyDays * productForReport.Price;
+            }  
+            catch (DivideByZeroException)
+            {
+                report.DailySalesPastThirtyDays = 0;
+            }
+            catch (NullReferenceException)
+            {
+                throw new EntityNotFoundException($"Product with ID {productId} could not be found. Could not generate report."); 
+            }
 
             return report;
         }
